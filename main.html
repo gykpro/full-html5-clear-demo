@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Clear HTML5 Demo</title>
+	<link rel="stylesheet" type="text/css" href="./main.css" media="all">
+	<script type="text/javascript" src="./jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="./main.js"></script>
+	<style type="text/css">
+	/*
+		for in page test
+	*/
+
+	li{
+		font-size:12px;
+		position: relative;
+		height:40px;
+		display:block;
+		line-height:40px;
+	}
+	.transform-item{
+		height:20px;
+		width:100%;
+		overflow:hidden;
+		position: absolute;
+		background-color: #F93;
+		/*-webkit-transform:;*/
+	}
+	.transform-item span{
+		position: absolute;
+		padding-left:12px;
+		line-height:17px;
+
+	}
+	.upper-item{
+		top:0px;
+		-webkit-transform-origin-y:0;
+		-moz-transform-origin-y:0;
+		-o-transform-origin-y:0;
+		-ms-transform-origin-y:0;
+		transform-origin-y:0;
+		-webkit-transform:perspective(600);
+	}
+	.upper-item span{
+		bottom:-9px;
+	}
+	.bottom-item{
+		bottom:0px;
+		-webkit-transform-origin-y:100%;
+		-moz-transform-origin-y:100%;
+		-o-transform-origin-y:100%;
+		-ms-transform-origin-y:100%;
+		transform-origin-y:100%;
+		-webkit-transform:perspective(600);
+	}
+	.bottom-item span{
+		top:-9px;
+	}
+	</style>
+</head>
+<body>
+	<ul class="list">
+		<li>item</li>
+		<li>item</li>
+		<li class="item">
+
+			<div class="transform-item upper-item">
+				<span>Pinch apart to create new item</span>
+			</div>
+			<div class="transform-item bottom-item">
+				<span>Pinch apart to create new item</span>
+			</div>
+		</li>
+		<li>item</li>
+	</ul>
+	
+</body>
+</html>
