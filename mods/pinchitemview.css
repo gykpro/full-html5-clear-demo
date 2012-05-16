@@ -1,0 +1,41 @@
+.pinch-item{
+	position: relative;
+	height:40px;
+}
+.transform-item{
+	height:20px;
+	width:100%;
+	overflow:hidden;
+	position: absolute;
+	background-color: #F93;
+	-webkit-transform:perspective(600);
+
+}
+.transform-item span{
+	position: absolute;
+	padding-left:12px;
+	line-height:17px;
+
+}
+.upper-item{
+	top:0px;
+	-webkit-transform-origin-y:0;
+	-moz-transform-origin-y:0;
+	-o-transform-origin-y:0;
+	-ms-transform-origin-y:0;
+	transform-origin-y:0;
+}
+.upper-item span{
+	bottom:-9px;
+}
+.bottom-item{
+	bottom:0px;
+	-webkit-transform-origin-y:100%;
+	-moz-transform-origin-y:100%;
+	-o-transform-origin-y:100%;
+	-ms-transform-origin-y:100%;
+	transform-origin-y:100%;
+}
+.bottom-item span{
+	top:-9px;
+}
