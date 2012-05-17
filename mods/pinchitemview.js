@@ -36,7 +36,8 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim){
             	bottom = el.all('.bottom-item'),
             	// halfHeight = Math.floor(heightByPx/2),
             	defHeight = self.get('defHeight'),
-            	deg = parseInt(Math.acos(heightByPx/defHeight) * 90);
+                // deg = Math.floor((Math.acos((heightByPx===0?0:(heightByPx+1))/defHeight)/Math.PI) * 180);
+            	deg = Math.floor((Math.acos(heightByPx/defHeight)/Math.PI) * 180);
             el.css('height',heightByPx);
             // Y.log(upper.css('-webkit-transform'))
             upper.css('-webkit-transform','perspective(600) rotateX(-'+ deg +'deg)')

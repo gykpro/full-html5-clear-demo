@@ -49,8 +49,19 @@ KISSY.use('mods/pinchitemview',function(S, PinchViewItem){
 				Y.Assert.areNotEqual(result,0,'#container should have .pinch-item element after view inited')
 			},
 			testRotate:function(){
-				view.set('height',30);
-				Y.assert(true,'passed')
+				var curHeight = 40;
+				var timeVar = setInterval(function(){
+					curHeight--;
+					if(curHeight==-1){
+						clearInterval(timeVar);
+						return;
+					}
+					view.set('height',curHeight);
+				},30)
+				this.wait(function(){
+
+					Y.assert(window.confirm('looks right?')===true,'tester said it failed!')
+				},2000)
 			}
 		}); 
 
