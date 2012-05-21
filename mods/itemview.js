@@ -1,14 +1,15 @@
 KISSY.add('mods/itemview',function(S, Node, Template, mvc, Anim){
 	var $=Node.all;
 
-	var ItemViewTpl = Template('<li class="item">{{value}}</li>' );
+    // var ItemViewTpl = Template('<li class="item"><span class="text">{{value}}</span><input type="text" value="{{value}}" style="display:none;"></li>' );
+	var ItemViewTpl = Template('<li class="item"><span class="text">{{value}}</span></li>' );
 
 	function ItemView(){
 		var self = this;
         ItemView.superclass.constructor.apply(self, arguments);
 	}
     S.extend(ItemView, mvc.View, {
-        render:function(data,parentNode) {
+        render:function(data) {
             var self = this;
             // if($(parentNode).length!==0){
             //     self.set('parentNode', $(parentNode));
@@ -27,7 +28,7 @@ KISSY.add('mods/itemview',function(S, Node, Template, mvc, Anim){
         }
     },{
         ATTRS:{
-            
+
         }
     });
 

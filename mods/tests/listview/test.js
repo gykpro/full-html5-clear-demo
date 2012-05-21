@@ -15,7 +15,7 @@ KISSY.config({
 KISSY.use('mods/listview',function(S, ListView){
 
 
-	YUI().use("test","node","console", function (Y) {
+	YUI().use("test","node","console", "node-event-simulate", function (Y) {
 		window.Y = Y;
 		Y.one('body').addClass('yui3-skin-sam');
 		Y.one('body').append('<div id="testlogger"></div>')
@@ -24,7 +24,9 @@ KISSY.use('mods/listview',function(S, ListView){
 		var S=KISSY;
 		var $=S.all;
 
-		var view = new ListView('#container');
+		var view = new ListView({
+            el:'#container'
+		});
 	 	
 	 	//---------------------Testcase testDefaultUI Start------------------------------------------
 	 	//@testcase testDefault
@@ -66,10 +68,29 @@ KISSY.use('mods/listview',function(S, ListView){
 			// }
 		}); 
 
-	 	
+	 	var testTriggerEvents = new Y.Test.Case({
+	 		name:'Trigger Events Test',
+	 		testClickOnText:function(){
+	 			Y.one('li.item span.text').simulate('click');
+				Y.Assert.areSame(1, $('#container input').length, 'should be one input el after click');
+				Y.Assert.areSame(document.activeElement, $('#container input').getDOMNode(), 'input node should be focused');
+				Y.Assert.areSame('none', $('#container span.text').css('display'),'after edit(), text node should be hidden');
+				Y.Assert.areNotEqual('none', $('#container input').css('display'),'after edit(), input node should be visible');
+	 		},
+	 		testBlur:function(){
+
+	 			// Y.one('body').simulate('click');
+	 			Y.one('#container li.item input').simulate('blur');
+				// Y.Assert.areSame(0, $('#container input').length, 'should be no input el after click');
+				// Y.Assert.areSame(document.activeElement, $('#container input').getDOMNode(), 'input node should be focused');
+				// Y.Assert.areNotEqual('none', $('#container span.text').css('display'),'after edit(), text node should be hidden');
+				// Y.Assert.areNotEqual('none', $('#container input').css('display'),'after edit(), input node should be visible');
+	 		}
+	 	})
 		
 		
 		suite.add(testDefault);
+		suite.add(testTriggerEvents);
 
 	    var r = new Y.Console({
 		    verbose : true,
