@@ -80,10 +80,11 @@ KISSY.use('mods/listview',function(S, ListView){
 	 		testBlur:function(){
 
 	 			// Y.one('body').simulate('click');
-	 			Y.one('#container li.item input').simulate('blur');
-				// Y.Assert.areSame(0, $('#container input').length, 'should be no input el after click');
+	 			// Y.one('#container input').simulate('blur');
+	 			Y.one('#fakefocus').focus();
+				Y.Assert.areSame(0, $('#container input').length, 'should be no input el after click');
 				// Y.Assert.areSame(document.activeElement, $('#container input').getDOMNode(), 'input node should be focused');
-				// Y.Assert.areNotEqual('none', $('#container span.text').css('display'),'after edit(), text node should be hidden');
+				Y.Assert.areNotEqual('none', $('#container span.text').css('display'),'after edit(), text node should be visible');
 				// Y.Assert.areNotEqual('none', $('#container input').css('display'),'after edit(), input node should be visible');
 	 		}
 	 	})

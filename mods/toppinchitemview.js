@@ -1,29 +1,27 @@
-KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
+KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchItemView, Global){
 	var $=Node.all;
 
-	var pinchItemViewTpl = Template(
+	var topPinchItemViewTpl = Template(
 	'<li class="pinch-item">' + 
-'			<div class="transform-item upper-item">' + 
-'				<span>Pinch apart to create new item</span>' + 
-'			</div>' + 
-'			<div class="transform-item bottom-item">' + 
-'				<span>Pinch apart to create new item</span>' + 
+'			<div class="transform-item  top-pinch-item">' + 
+'				<span>Drag down to create new item</span>' + 
 '			</div>' + 
 '		</li>' );
     // console.log(Global.cssConfig.perspective)
-	function PinchItemView(){
+	function TopPinchItemView(){
 		var self = this;
-        PinchItemView.superclass.constructor.apply(self, arguments);
+        TopPinchItemView.superclass.constructor.apply(self, arguments);
 	}
-    S.extend(PinchItemView, mvc.View, {
+    S.extend(TopPinchItemView, PinchItemView, {
         render:function() {
             var self = this;
             // dom 节点添加标志 , dom 代理事件需要
             // self.get("el").addClass("note").attr("id", self.get("note").getId());
             // self.get("el").html(pinchItemViewTpl.render());
-            var el = $(pinchItemViewTpl.render());
+            var el = $(topPinchItemViewTpl.render());
             if(self.get('parentNode')){
-            	el.appendTo(self.get('parentNode'));
+            	// el.appendTo(self.get('parentNode'));
+                $(self.get('parentNode')).prepend(el);
                 $(self.get('parentNode')).css('-webkit-perspective',Global.cssConfig.perspective);
             }
             self.set('el',el);
@@ -32,17 +30,18 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
         appendTo:function(parentNode){
             var self = this;
             if(self.get('el')){
-                $(parentNode).append(self.get('el'));
+                $(parentNode).prepend(self.get('el'));
             }else{
-                $(parentNode).append(self.render().get('el'));
+                $(parentNode).prepend(self.render().get('el'));
             }
             $(parentNode).css('-webkit-perspective',Global.cssConfig.perspective);
         },
         _transHeightTo:function(heightByPx){
             var self = this;
             var	el = self.get('el'),
-            	upper = el.all('.upper-item'),
-            	bottom = el.all('.bottom-item'),
+                itemEl = el.all('.transform-item'),
+            	// upper = el.all('.upper-item'),
+            	// bottom = el.all('.bottom-item'),
             	// halfHeight = Math.floor(heightByPx/2),
             	defHeight = self.get('defHeight'),
                 // deg = Math.floor((Math.acos((heightByPx===0?0:(heightByPx+1))/defHeight)/Math.PI) * 180);
@@ -51,8 +50,8 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
             // Y.log(upper.css('-webkit-transform'))
             // upper.css('-webkit-transform','perspective(600) rotateX(-'+ deg +'deg)')
             // bottom.css('-webkit-transform','perspective(600) rotateX('+ deg +'deg)')
-            upper.css('-webkit-transform','rotateX(-'+ deg +'deg)')
-            bottom.css('-webkit-transform','rotateX('+ deg +'deg)')
+            // upper.css('-webkit-transform','rotateX(-'+ deg +'deg)')
+            itemEl.css('-webkit-transform','rotateX('+ deg +'deg)')
         },
 
         destroy:function() {
@@ -68,14 +67,11 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
                 value:function(){
                 	return this.get('el').css('height');
                 }
-            },
-            defHeight:{
-            	value: Global.cssConfig.itemHeight || 40
             }
         }
     });
 
-    return PinchItemView;	
+    return TopPinchItemView;	
 }, {
-    requires:['node','template','mvc','anim', 'mods/global', './pinchitemview.css']
+    requires:['node','template','mvc','anim','mods/pinchitemview' ,'mods/global', './toppinchitemview.css']
 })

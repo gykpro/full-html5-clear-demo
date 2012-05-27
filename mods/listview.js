@@ -11,13 +11,16 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView){
     S.extend(ListView, mvc.View, {
         add:function(data) {
             var self = this;
-            $(self.get('el')).append(new ItemView().render(data).get('el'));
+            var newItemView = new ItemView().render(data);
+            $(self.get('el')).append(newItemView.get('el'));
+            newItemView.set('parentNode',$(self.get('el')));
         },
         destroy:function() {
             this.get("el").remove();
         },
         editItem:function(ev){
             var self = this;
+            // console.log(ev);
             // $(ev.currentTarget).fire('editstart');
             var textEl = $(ev && ev.currentTarget),
                 inputEl = $(editInputElTpl.render({value:textEl.text()}));
@@ -26,6 +29,7 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView){
             inputEl.val(textEl.text()).show().getDOMNode().focus();
         },
         endEdit:function(ev){
+            // console.log(ev);
             var self = this,
                 // el = self.get('el'),
                 inputEl = $(ev.currentTarget),
@@ -35,6 +39,7 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView){
             inputEl.hide()
             textEl.text(inputEl.val()).show();
             inputEl.detach('blur');
+            // console.log(inputEl && inputEl.getDOMNode())
             inputEl.remove();
         },
         onSwipe:function(ev){
@@ -60,5 +65,5 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView){
 
     return ListView;	
 }, {
-    requires:['node','template','mvc','mods/itemview']
+    requires:['node','template','mvc','mods/itemview','mods/global']
 })

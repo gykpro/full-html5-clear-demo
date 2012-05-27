@@ -3,13 +3,15 @@
 	height:40px;
 }
 .transform-item{
-	height:20px;
 	width:100%;
 	overflow:hidden;
 	position: absolute;
 	background-color: #F93;
 	-webkit-transform:perspective(600);
 
+}
+.upper-item,.bottom-item{
+	height:20px;
 }
 .transform-item span{
 	position: absolute;
