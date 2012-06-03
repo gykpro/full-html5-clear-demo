@@ -1,4 +1,4 @@
-global_static_root = 'http://localhost/full-html5-clear-demo'
+global_static_root = '/full-html5-clear-demo'
 KISSY.config({
    map: [
            [/(.+)-min\.(.+)?$/, '$1.$2']

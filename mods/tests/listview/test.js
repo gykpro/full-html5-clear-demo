@@ -1,4 +1,4 @@
-global_static_root = 'http://localhost/full-html5-clear-demo'
+global_static_root = '/full-html5-clear-demo'
 KISSY.config({
    map: [
            [/(.+)-min\.(.+)?$/, '$1.$2']
@@ -26,7 +26,7 @@ KISSY.use('mods/listview',function(S, ListView){
 
 		var view = new ListView({
             el:'#container'
-		});
+		}).render();
 	 	
 	 	//---------------------Testcase testDefaultUI Start------------------------------------------
 	 	//@testcase testDefault
@@ -44,12 +44,14 @@ KISSY.use('mods/listview',function(S, ListView){
 		 	//@expect 执行render后元素正常出现
 			testAdd: function () {
 				
-				view.add({
+				view.add([{
 					value:'xxx'
-				})
+				},{
+					value:'yyy'
+				}])
 				var result = S.all('#container .item').length;
 				Y.Assert.areNotEqual(result,0,'#container should have .item element after view added//')
-				Y.assert($('#container .item').text()==='xxx','.item should have text "xxx"')
+				Y.assert($('#container .text').text()==='xxx','.item should have text "xxx"')
 			}//,
 			// testRotate:function(){
 			// 	var curHeight = 40;
@@ -96,10 +98,15 @@ KISSY.use('mods/listview',function(S, ListView){
 	    var r = new Y.Console({
 		    verbose : true,
 		    newestOnTop : false,
-		    height:'90%'
+		    height:'90%',
+		    top:"100px"
 		});
 		
 		r.render('#testlogger');
+		$('#testlogger').style({
+			'top':'100px',
+			'position':'relative'
+		})
 		
 
 		Y.Test.Runner.add(suite);

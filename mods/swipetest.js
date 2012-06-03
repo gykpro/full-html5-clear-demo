@@ -19,17 +19,19 @@ KISSY.use('mods/listview',function(S, ListView){
 
 		var view = new ListView({
             el:'#container'
-		});
+		}).render();
 
 				
-		view.add({
+		view.add([{
 			value:'xxx'
-		})
-		$('#container li.item').on('swipe',function(ev){
-			alert('success');
-		})
-		$('#container li.item').on('longTap',function(ev){
-			console.log(ev.currentTarget)
-		})
+		},{
+			value:'yyy'
+		}])
+		// $('#container li.item').on('swipe',function(ev){
+		// 	alert('success');
+		// })
+		// $('#container li.item').on('longTap',function(ev){
+		// 	console.log(ev.currentTarget)
+		// })
 
 });	

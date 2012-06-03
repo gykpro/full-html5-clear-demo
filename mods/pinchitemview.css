@@ -1,6 +1,6 @@
 .pinch-item{
 	position: relative;
-	height:40px;
+	height:80px;
 }
 .transform-item{
 	width:100%;
@@ -11,7 +11,7 @@
 
 }
 .upper-item,.bottom-item{
-	height:20px;
+	height:40px;
 }
 .transform-item span{
 	position: absolute;

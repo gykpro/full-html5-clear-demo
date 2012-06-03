@@ -1,0 +1,11 @@
+li.item{
+	height:80px;
+	list-style-type:none;
+	overflow:hidden;
+}
+ul,li{
+	list-style-type:none;
+	padding:0;
+	margin:0;
+}
+

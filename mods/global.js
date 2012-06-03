@@ -95,8 +95,8 @@ KISSY.add('mods/global',function(S, Node, Event){
 	S.extend(Global, S.Base,{},{
 		cssConfig:{
 			perspective:600,
-			itemHeight:40,
-			swipeThreshold:60
+			itemHeight:80,
+			swipeThreshold:80
 		}
 	})
 	return Global;

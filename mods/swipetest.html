@@ -4,7 +4,33 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<script type="text/javascript" src="http://a.tbcdn.cn/??s/kissy/1.2.0/kissy.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+	<style type="text/css">
+		body{
+			overflow: hidden;
+		}
+		ul,li.item{
+			-webkit-perspective:600;
+		}
+		.item .itembody{
+			height:80px;
+			list-style-type:none;
+			background-color: #ccc;
+		}
+		.in-transition{
+
+			-webkit-transition: all 0.1s ease-in;
+		}
+		ul,li{
+			list-style-type:none;
+			padding:0;
+			margin:0;
+		}
+		#container{
+			width:device-width;
+			overflow:hidden;
+		}
+	</style>
 </head>
 <body>
 	<ul id="container">

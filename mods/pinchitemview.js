@@ -27,6 +27,7 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
                 $(self.get('parentNode')).css('-webkit-perspective',Global.cssConfig.perspective);
             }
             self.set('el',el);
+            self.set('height',0)
             return self;
         },
         appendTo:function(parentNode){
@@ -56,13 +57,15 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
         },
 
         destroy:function() {
-            this.get("el").remove();
+            $(this.get("el")).remove();
         }
     },{
         ATTRS:{
             height:{
                 setter:function(heightByPx){
-                	this._transHeightTo(heightByPx);
+                    try{
+                    	this._transHeightTo(heightByPx);
+                    }catch(ex){}
                 	// return this.get('height');
                 },
                 value:function(){
@@ -70,7 +73,7 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
                 }
             },
             defHeight:{
-            	value: Global.cssConfig.itemHeight || 40
+            	value: Global.cssConfig.itemHeight || 80
             }
         }
     });
