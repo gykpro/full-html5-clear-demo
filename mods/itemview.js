@@ -65,11 +65,19 @@ KISSY.add('mods/itemview',function(S, Node, Template, mvc, Anim){
                     el.all('.itembody').style('-webkit-transform','translateX('+moveDX+'px)');
                 }
             }).on('touchend',function(ev){
+                // var self = this;
+                S.log('itemview touchend start')
                 var e = ev.originalEvent;
+                if(!e.touches || e.touches.length !==0)
+                    return;
                 // console.log(e.touches.length)
-                var dx = self.curTouchPos.x - self.touchStartPos.x,
-                    dy = self.curTouchPos.y - self.touchStartPos.y;
+                S.log('itemview touchend touches length:'+e.touches.length)
+                S.log(self)
+                S.log(self.swiping || 'null')
                 if(self.swiping === true){
+                    var dx = self.curTouchPos.x - self.touchStartPos.x,
+                        dy = self.curTouchPos.y - self.touchStartPos.y;
+                    S.log('itemview touchend 1')
                     var itemBody =  el.all('.itembody');
                     itemBody.style('-webkit-transition','all 0.1s linear');
                     itemBody.style('-webkit-transform','translate(0px)');
@@ -77,6 +85,7 @@ KISSY.add('mods/itemview',function(S, Node, Template, mvc, Anim){
                         itemBody.style('-webkit-transition','')
                     },210)
                 }
+                S.log('itemview touchend end')
             })
             return self;
         },
@@ -91,5 +100,5 @@ KISSY.add('mods/itemview',function(S, Node, Template, mvc, Anim){
 
     return ItemView;	
 }, {
-    requires:['node','template','mvc','anim','./itemview.css']
+    requires:['node','template','mvc','anim','./itemview.css','./global.css']
 })

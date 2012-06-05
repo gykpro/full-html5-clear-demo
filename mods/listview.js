@@ -82,9 +82,9 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
             }).on('touchend',function(ev){
                 // alert(1)
                 // try{
-                console.log('endstart')
+                S.log('endstart')
                 var e = ev.originalEvent;
-                console.log(e.touches.length)
+                S.log(e.touches.length)
                 // length === 1 means touches changes from 2 to 1
                 if(!e.touches || e.touches.length!==1){
                     return;
@@ -94,7 +94,7 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                     self.pinchViewInst.destroy();
                     self.pinchViewInst = null;
                 }
-                console.log('endend')
+                S.log('endend')
             // }catch(ex){}
             });
             return self;
