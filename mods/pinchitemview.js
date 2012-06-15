@@ -12,7 +12,7 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
 '			</div>' + 
 '       </div>'+
 '	</li>' );
-    // console.log(Global.cssConfig.perspective)
+    // S.log(Global.cssConfig.perspective)
 	function PinchItemView(){
 		var self = this;
         PinchItemView.superclass.constructor.apply(self, arguments);
@@ -42,7 +42,7 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
             $(parentNode).css('-webkit-perspective',Global.cssConfig.perspective);
         },
         _transHeightTo:function(heightByPx){
-            // console.log('trans start');
+            // S.log('trans start');
             var self = this;
             var	el = self.get('el'),
             	upper = el.all('.upper-item'),
@@ -64,26 +64,51 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
             // bottom.css('-webkit-transform','perspective(600) rotateX('+ deg +'deg)')
             upper.css('-webkit-transform','rotateX(-'+ deg +'deg)')
             bottom.css('-webkit-transform','rotateX('+ deg +'deg)')
-            // console.log('transend')
+            // S.log('transend')
         },
 
         destroy:function() {
             var self = this;
-            console.log('destroy start')
-            var duration = (self.get('height')/self.get('defHeight')) * 300;
-            var timer = S.later(function(){
-                var height = self.get('height');
-                height-=5;
-                if(height<=0){
-                    height = 0;
-                    self.set('height',0);
-                    $(self.get("el")).remove();
-                    timer.cancel();
-                }else{
-                    self.set('height',height);
-                }
-            }, 1, true);
-            console.log('destroy end')
+            S.log('destroy start');
+            var curHeight = self.get('height'),
+                defHeight = self.get('defHeight');
+            var dH1 = curHeight - defHeight;
+            if(dH1 > 0){
+                var speed = dH1/20;
+                var timer = S.later(function(){
+                    var height = self.get('height');
+                    height-=speed;
+                    if(height<=defHeight){
+                        height = defHeight;
+                        self.set('height',defHeight);
+                        // $(self.get("el")).remove();
+                        timer.cancel();
+                        callback();
+                    }else{
+                        self.set('height',height);
+                    }
+                }, 1, true, self);               
+            }else{
+                callback();
+            }
+            function callback(){
+                var duration = (self.get('height')/self.get('defHeight')) * 300;
+                var timer = S.later(function(){
+                    var height = self.get('height');
+                    height-=5;
+                    if(height<=0){
+                        height = 0;
+                        self.set('height',0);
+                        $(self.get("el")).remove();
+                        timer.cancel();
+                    }else{
+                        self.set('height',height);
+                    }
+                }, 1, true, self);               
+            }
+
+
+            S.log('destroy end')
         }
     },{
         ATTRS:{

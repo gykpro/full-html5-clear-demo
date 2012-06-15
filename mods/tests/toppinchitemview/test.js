@@ -49,10 +49,10 @@ KISSY.use('mods/toppinchitemview',function(S, TopPinchViewItem){
 				Y.Assert.areNotEqual(result,0,'#container should have .pinch-item element after view inited')
 			},
 			testRotate:function(){
-				var curHeight = 40;
+				var curHeight = 0;
 				var timeVar = setInterval(function(){
-					curHeight--;
-					if(curHeight==-1){
+					curHeight++;
+					if(curHeight==31){
 						clearInterval(timeVar);
 						return;
 					}
@@ -77,7 +77,10 @@ KISSY.use('mods/toppinchitemview',function(S, TopPinchViewItem){
 		});
 		
 		r.render('#testlogger');
-		
+		$('#testlogger').style({
+			'top':'100px',
+			'position':'relative'
+		})		
 
 		Y.Test.Runner.add(suite);
 	 

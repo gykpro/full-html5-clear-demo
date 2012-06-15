@@ -13,7 +13,7 @@ KISSY.config({
        ]
 });
 KISSY.Config.debug = true;
-KISSY.use('mods/listview',function(S, ListView){
+KISSY.use('mods/listview,mods/pinchitemview',function(S, ListView, TopPinchView){
 
 		var S=KISSY;
 		var $=S.all;
@@ -28,6 +28,18 @@ KISSY.use('mods/listview',function(S, ListView){
 		},{
 			value:'yyy'
 		}])
+
+		var toppinchviewinst = new TopPinchView().render();
+		view.get('el').append(toppinchviewinst.get('el'));
+			var curHeight = 0;
+			var timeVar = setInterval(function(){
+				curHeight++;
+				if(curHeight==21){
+					clearInterval(timeVar);
+					return;
+				}
+				toppinchviewinst.set('height',curHeight);
+			},30)
 
 		// $('#container li.item').on('swipe',function(ev){
 		// 	alert('success');

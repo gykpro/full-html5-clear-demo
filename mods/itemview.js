@@ -28,7 +28,7 @@ KISSY.add('mods/itemview',function(S, Node, Template, mvc, Anim){
                 self.swiping = null;
                 self.swipflag = false;
                 self.moveSpeedSacle = 1;
-                ev.preventDefault()
+                ev.preventDefault();
             }).on('touchmove',function(ev){
                 var e = ev.originalEvent; 
                 if(!e.touches || e.touches.length !== 1){
@@ -47,6 +47,7 @@ KISSY.add('mods/itemview',function(S, Node, Template, mvc, Anim){
                     }
                 }
                 if(self.swiping === true){
+                    ev.halt();
                     var e = ev.originalEvent;
                     self.curTouchPos = {
                         x:e.pageX,

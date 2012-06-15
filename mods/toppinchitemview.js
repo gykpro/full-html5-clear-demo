@@ -11,6 +11,7 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
 	function TopPinchItemView(){
 		var self = this;
         TopPinchItemView.superclass.constructor.apply(self, arguments);
+        S.log('toppinchview created')
 	}
     S.extend(TopPinchItemView, PinchItemView, {
         render:function() {
@@ -45,22 +46,26 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
             	// halfHeight = Math.floor(heightByPx/2),
             	defHeight = self.get('defHeight'),
                 // deg = Math.floor((Math.acos((heightByPx===0?0:(heightByPx+1))/defHeight)/Math.PI) * 180);
-            	deg = Math.floor((Math.acos(heightByPx/defHeight)/Math.PI) * 180);
+            	deg = Math.floor((Math.acos( Math.min(heightByPx, defHeight) /defHeight)/Math.PI) * 180);
+                S.log('rotating '+deg+'deg')
             el.css('height',heightByPx);
             // Y.log(upper.css('-webkit-transform'))
             // upper.css('-webkit-transform','perspective(600) rotateX(-'+ deg +'deg)')
             // bottom.css('-webkit-transform','perspective(600) rotateX('+ deg +'deg)')
             // upper.css('-webkit-transform','rotateX(-'+ deg +'deg)')
             itemEl.css('-webkit-transform','rotateX('+ deg +'deg)')
-        },
-
-        destroy:function() {
-            this.get("el").remove();
         }
+        // ,
+
+        // destroy:function() {
+        //     this.get("el").remove();
+        //     S.log('toppinchview destroy')
+        // }
     },{
         ATTRS:{
             height:{
                 setter:function(heightByPx){
+                    S.log('setting height to '+heightByPx)
                 	this._transHeightTo(heightByPx);
                 	// return this.get('height');
                 },

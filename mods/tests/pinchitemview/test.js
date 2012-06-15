@@ -77,7 +77,10 @@ KISSY.use('mods/pinchitemview',function(S, PinchViewItem){
 		});
 		
 		r.render('#testlogger');
-		
+		$('#testlogger').style({
+			'top':'100px',
+			'position':'relative'
+		})		
 
 		Y.Test.Runner.add(suite);
 	 
