@@ -15,12 +15,13 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
             $(self.get('el')).on('touchstart',function(ev){
                 // try{
                 // // S.log(1)
+                console.log('touchstart')
                 var e = ev.originalEvent;
                 // self.fingers = e.touches.length;
                 //handle one finger dragging
                 self.dragging = self.dragflag = false;
                 if(e.touches && e.touches.length === 1){
-
+                    self.__dragging = true;
                     self.startPos1 = {
                         x:e.touches[0].pageX,
                         y:e.touches[0].pageY
@@ -31,6 +32,8 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                 if(!e.touches || e.touches.length!==2){
                     return;
                 }
+                self.__pinching = true;
+                self.__dragging = false;
                 // // S.log(1)
                 self.pinchViewInst = new PinchItemView().render();
                 // $(self.pinchViewInst.get('el')).insertAfter($($(self.get('el')).all('li.item').get(0)));
@@ -67,7 +70,7 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                 // S.log(e.touches.length);
 
                 //handle one finger grag
-                if(e.touches && e.touches.length===1){
+                if(e.touches && e.touches.length===1 && self.__dragging === true){
                     self.curWinScrollTop = $(window).scrollTop();
                     self.curPos1 = {
                         x:e.touches[0].pageX,
@@ -77,15 +80,21 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                     var dx = self.curPos1.x - self.startPos1.x;
                     var dH = 0;
                     if(self.curWinScrollTop <= 0){
-                        ev.halt();
-                        if(!self.topPinchViewInst){
-                            self.topPinchViewInst = new TopPinchView().render();
-                            self.topPinchViewInst.get('el').prependTo(self.get('el'));
-
-                        }
                         dH = dy - ( self.startWinScrollTop - self.curWinScrollTop);
                         // S.log('dH:' + dH);
-                        self.topPinchViewInst.set('height',dH);
+                        if(dH>0){
+                            
+                        
+                        ev.halt();
+                            if(!self.topPinchViewInst){
+                                self.topPinchViewInst = new TopPinchView().render();
+                                self.topPinchViewInst.get('el').prependTo(self.get('el'));
+
+                            }
+                            self.topPinchViewInst.set('height',dH);
+                        }else{
+                        }
+                        
                         S.log('dx'+dx)
                         S.log('dy'+dy)
                         S.log('dH'+dH)
@@ -127,16 +136,20 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                 // length === 1 means touches changes from 2 to 1
 
                 if(e.touches && e.touches.length ===0){
+                    self.__dragging = false;
                     if(self.topPinchViewInst){
                         self.topPinchViewInst.destroy();
                         self.topPinchViewInst = null;
                     }
                 }
 
-                if(!e.touches || e.touches.length!==1){
-                    return;
-                }
+                // if(!e.touches || e.touches.length!==1){
+                //     return;
+                // }
                 // S.log('end1')
+                if(e.touches.length === 1){
+                    self.__pinching = false;
+                }
                 if(self.pinchViewInst){
                     self.pinchViewInst.destroy();
                     self.pinchViewInst = null;

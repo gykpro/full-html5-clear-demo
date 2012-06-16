@@ -71,28 +71,36 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
             var self = this;
             S.log('destroy start');
             var curHeight = self.get('height'),
-                defHeight = self.get('defHeight');
+                defHeight = self.get('defHeight'),
+                el = self.get('el');
             var dH1 = curHeight - defHeight;
             if(dH1 > 0){
-                var speed = dH1/20;
-                var timer = S.later(function(){
-                    var height = self.get('height');
-                    height-=speed;
-                    if(height<=defHeight){
-                        height = defHeight;
-                        self.set('height',defHeight);
-                        // $(self.get("el")).remove();
-                        timer.cancel();
-                        callback();
-                    }else{
-                        self.set('height',height);
-                    }
-                }, 1, true, self);               
+                var speed = dH1/10;
+                el.addClass('intransition');
+                S.later(function(){
+                    el.height(defHeight);    
+                }, 1, false, self)
+                
+                S.later(function(){
+                    el.removeClass('intransition')
+                }, 100, false, self);
+                // var timer = S.later(function(){
+                //     var height = self.get('height');
+                //     height-=speed;
+                //     if(height<=defHeight){
+                //         height = defHeight;
+                //         self.set('height',defHeight);
+                //         // $(self.get("el")).remove();
+                //         timer.cancel();
+                //         // callback();
+                //     }else{
+                //         self.set('height',height);
+                //     }
+                // }, 1, true, self);               
             }else{
                 callback();
             }
             function callback(){
-                var duration = (self.get('height')/self.get('defHeight')) * 300;
                 var timer = S.later(function(){
                     var height = self.get('height');
                     height-=5;

@@ -12,7 +12,7 @@ KISSY.config({
 	       }
        ]
 });
-KISSY.Config.debug = true;
+KISSY.Config.debug = false;
 KISSY.use('mods/listview',function(S, ListView){
 
 		var S=KISSY;
