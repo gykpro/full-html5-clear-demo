@@ -34,7 +34,7 @@ KISSY.use('mods/listview,mods/toppinchitemview',function(S, ListView, TopPinchVi
 			var curHeight = 0;
 			var timeVar = setInterval(function(){
 				curHeight++;
-				if(curHeight==31){
+				if(curHeight==61){
 					clearInterval(timeVar);
 					return;
 				}

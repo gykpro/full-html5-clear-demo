@@ -46,7 +46,8 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
             	// halfHeight = Math.floor(heightByPx/2),
             	defHeight = self.get('defHeight'),
                 // deg = Math.floor((Math.acos((heightByPx===0?0:(heightByPx+1))/defHeight)/Math.PI) * 180);
-            	deg = Math.floor((Math.acos( Math.min(heightByPx, defHeight) /defHeight)/Math.PI) * 180);
+            	deg = ((Math.acos( Math.min(heightByPx + 3, defHeight) /defHeight)/Math.PI) * 180);
+                if(deg<0)deg = 0
                 S.log('rotating '+deg+'deg')
             el.css('height',heightByPx);
             // Y.log(upper.css('-webkit-transform'))

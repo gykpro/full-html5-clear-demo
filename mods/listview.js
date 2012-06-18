@@ -12,6 +12,16 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
             var self = this;
             // ListView.superclass.render.apply(self,arguments);
             // // S.log(self.get('el'));
+            function setTopPinchViewHeight(height){
+                var dH = height;
+                if(!self.topPinchViewInst){
+                    self.topPinchViewInst = new TopPinchView().render();
+                    self.topPinchViewInst.get('el').prependTo(self.get('el'));
+
+                }
+                self.topPinchViewInst.set('height',dH);
+            }
+            self.__setTopPinchViewHeight = S.throttle(setTopPinchViewHeight, 50, self);
             $(self.get('el')).on('touchstart',function(ev){
                 // try{
                 // // S.log(1)
@@ -83,15 +93,8 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                         dH = dy - ( self.startWinScrollTop - self.curWinScrollTop);
                         // S.log('dH:' + dH);
                         if(dH>0){
-                            
-                        
-                        ev.halt();
-                            if(!self.topPinchViewInst){
-                                self.topPinchViewInst = new TopPinchView().render();
-                                self.topPinchViewInst.get('el').prependTo(self.get('el'));
-
-                            }
-                            self.topPinchViewInst.set('height',dH);
+                            ev.halt();
+                            self.__setTopPinchViewHeight(dH);
                         }else{
                         }
                         

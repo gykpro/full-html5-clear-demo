@@ -3,6 +3,9 @@
 	bottom:0;
 	-webkit-transform-origin-y:100%;
 }
+.top-pinch-item span{
+	line-height:60px;
+}
 .pinch-item{
 	background-color: #0f0;
 }
