@@ -1,4 +1,4 @@
-KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemView, TopPinchView){
+KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemView, TopPinchView, Global){
 	var $=Node.all;
     var editInputElTpl = Template('<input type="text" value="{{value}}"/>');
 	function ListView(el){
@@ -42,6 +42,28 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                 if(!e.touches || e.touches.length!==2){
                     return;
                 }
+
+                //sometimes here trigger twice, both has e.touches.length===2
+
+                if(self.pinchViewInst)
+                    return;
+
+                var el = self.get('el'),
+                    topPos = el.offset().top,
+                    elCount = el.all('li').length,
+                    middleX = (e.touches[0].pageY + e.touches[1].pageY)/2,
+                    newElIndex = elCount - 1,
+                    theoIndex = parseInt((middleX - topPos) / Global.cssConfig.itemHeight);
+                // console.log((middleX - topPos) % Global.cssConfig.itemHeight)
+
+                newElIndex = (theoIndex > elCount - 1)?elCount :theoIndex;
+                // if(newElIndex < elCount - 1){
+                //     newElIndex++;
+                // }
+
+                    // bottomPos = topPos + el.height();
+                // console.log('topPos:'+topPos);
+                // console.log('bottomPos:'+bottomPos);
                 self.__pinching = true;
                 self.__dragging = false;
                 // // S.log(1)
@@ -49,7 +71,8 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                 // $(self.pinchViewInst.get('el')).insertAfter($($(self.get('el')).all('li.item').get(0)));
                 // // S.log(2)
                 // // S.log(self.pinchViewInst.get('el'))
-                $(self.get('el')).append(self.pinchViewInst.get('el'))
+                self.pinchViewInst.get('el').insertAfter(el.all('li')[newElIndex - 1]);
+                // $(self.get('el')).append(self.pinchViewInst.get('el'))
                 // // S.log(3)
                 self.startPos1 = {
                     x:e.touches[0].pageX,
@@ -156,6 +179,14 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                 if(self.pinchViewInst){
                     self.pinchViewInst.destroy();
                     self.pinchViewInst = null;
+                    var allEl = self.get('el').all('li')
+                    S.each(allEl ,function(oneItem, i){
+                        var colorStr = 'hsl(' + (353+i*Math.min(70/allEl.length,10)) + ',95%,' + (i==0 ? '48%':'53%') + ')';
+                        console.log(colorStr)
+                        $(oneItem).all('.itembody').style('background-color', colorStr);
+                        $(oneItem).all('.transform-item').style('background-color', colorStr);
+                    })
+                    
                 }
                 // S.log('endend')
             // }catch(ex){}

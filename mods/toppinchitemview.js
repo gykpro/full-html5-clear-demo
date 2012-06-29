@@ -55,6 +55,43 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
             // bottom.css('-webkit-transform','perspective(600) rotateX('+ deg +'deg)')
             // upper.css('-webkit-transform','rotateX(-'+ deg +'deg)')
             itemEl.css('-webkit-transform','rotateX('+ deg +'deg)')
+        },
+        destroy:function(){
+             var self = this;
+            S.log('destroy start');
+            var curHeight = self.get('height'),
+                defHeight = self.get('defHeight'),
+                el = self.get('el');
+            var dH1 = curHeight - defHeight;
+            console.log('height:'+curHeight)
+            console.log('dh:'+dH1)
+            if(dH1 > 0){
+                var speed = dH1/10;
+                el.addClass('intransition');
+                S.later(function(){
+                    el.height(defHeight)
+                }, 1, false, self)
+              
+            }else{
+                callback();
+            }
+            function callback(){
+                var timer = S.later(function(){
+                    var height = self.get('height');
+                    height-=5;
+                    if(height<=0){
+                        height = 0;
+                        self.set('height',0);
+                        $(self.get("el")).remove();
+                        timer.cancel();
+                    }else{
+                        self.set('height',height);
+                    }
+                }, 1, true, self);               
+            }
+
+
+            S.log('destroy end')           
         }
         // ,
 

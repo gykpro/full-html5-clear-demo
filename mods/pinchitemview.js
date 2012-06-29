@@ -74,16 +74,18 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
                 defHeight = self.get('defHeight'),
                 el = self.get('el');
             var dH1 = curHeight - defHeight;
+            console.log('height:'+curHeight)
+            console.log('dh:'+dH1)
             if(dH1 > 0){
                 var speed = dH1/10;
-                el.addClass('intransition');
+                el.all('.pinch-wrapper').addClass('intransition');
                 S.later(function(){
-                    el.height(defHeight);    
+                    el.all('.pinch-wrapper').css('margin', 0)
                 }, 1, false, self)
                 
-                S.later(function(){
-                    el.removeClass('intransition')
-                }, 100, false, self);
+                // S.later(function(){
+                //     el.removeClass('intransition')
+                // }, 100, false, self);
                 // var timer = S.later(function(){
                 //     var height = self.get('height');
                 //     height-=speed;
