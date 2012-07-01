@@ -9,10 +9,20 @@ KISSY.add('mods/itemview',function(S, Node, Template, mvc, Anim){
         ItemView.superclass.constructor.apply(self, arguments);
 	}
     S.extend(ItemView, mvc.View, {
-        render:function(data) {
+        render:function(data, node, cstyle) {
             var self = this;
-            var el = $(ItemViewTpl.render(data));
+            var tmpNode = $(ItemViewTpl.render(data)),
+                el;
+            if(node){
+                $(node).attr('class','').attr('style','').addClass('item').html(tmpNode.html());
+                el = $(node);
+            }else{
+                el = tmpNode;
+            }
             self.set('el',el);
+            if(cstyle){
+                el.style(cstyle)
+            }
             // el.unselectable();
             el.on('touchstart',function(ev){
                 var e=ev.originalEvent;
@@ -28,7 +38,7 @@ KISSY.add('mods/itemview',function(S, Node, Template, mvc, Anim){
                 self.swiping = null;
                 self.swipflag = false;
                 self.moveSpeedSacle = 1;
-                ev.preventDefault();
+                // ev.preventDefault();
             }).on('touchmove',function(ev){
                 var e = ev.originalEvent; 
                 if(!e.touches || e.touches.length !== 1){

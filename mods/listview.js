@@ -67,7 +67,10 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                 self.__pinching = true;
                 self.__dragging = false;
                 // // S.log(1)
-                self.pinchViewInst = new PinchItemView().render();
+                self.pinchViewInst = new PinchItemView().render({
+                    // 'background-color':'hsl(' + (353+newElIndex*10)+ ', 95%, 53%)'
+                    'background-color':'hsl(' + (353+newElIndex*Math.min(70/elCount,10)) + ',95%,' + (newElIndex==0 ? '48%':'53%') + ')'
+                });
                 // $(self.pinchViewInst.get('el')).insertAfter($($(self.get('el')).all('li.item').get(0)));
                 // // S.log(2)
                 // // S.log(self.pinchViewInst.get('el'))
@@ -177,15 +180,21 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                     self.__pinching = false;
                 }
                 if(self.pinchViewInst){
-                    self.pinchViewInst.destroy();
+                    var curPinchEl = self.pinchViewInst.get('el');
+                    self.pinchViewInst.destroy(function(){
+                        var newItemViewInst = new ItemView().render({
+                            value:'now I\'m a new item'
+                        }, curPinchEl);
+
+                        var allEl = self.get('el').all('li')
+                        S.each(allEl ,function(oneItem, i){
+                            var colorStr = 'hsl(' + (353+i*Math.min(70/allEl.length,10)) + ',95%,' + (i==0 ? '48%':'53%') + ')';
+                            console.log(colorStr)
+                            $(oneItem).all('.itembody').style('background-color', colorStr);
+                            $(oneItem).all('.transform-item').style('background-color', colorStr);
+                        })
+                    });
                     self.pinchViewInst = null;
-                    var allEl = self.get('el').all('li')
-                    S.each(allEl ,function(oneItem, i){
-                        var colorStr = 'hsl(' + (353+i*Math.min(70/allEl.length,10)) + ',95%,' + (i==0 ? '48%':'53%') + ')';
-                        console.log(colorStr)
-                        $(oneItem).all('.itembody').style('background-color', colorStr);
-                        $(oneItem).all('.transform-item').style('background-color', colorStr);
-                    })
                     
                 }
                 // S.log('endend')
@@ -228,11 +237,12 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                 textEl = $(inputEl).parent('li.item').all('span.text');
                 // inputEl = el.all('input');
             // self.fire('editend');
-            inputEl.hide()
-            textEl.text(inputEl.val()).show();
+            // inputEl.hide()
+            // alert($(inputEl).parent('li.item').html())
             inputEl.detach('blur');
             // // S.log(inputEl && inputEl.getDOMNode())
             inputEl.remove();
+            textEl.text(inputEl.val()).show();
         },
         onSwipe:function(ev){
 

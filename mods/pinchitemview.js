@@ -4,10 +4,10 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
 	var pinchItemViewTpl = Template(
 	'<li class="pinch-item">' + 
     '   <div class="pinch-wrapper">'+
-'			<div class="transform-item upper-item">' + 
+'			<div class="transform-item upper-item vpart">' + 
 '				<span>Pinch apart to create new item</span>' + 
 '			</div>' + 
-'			<div class="transform-item bottom-item">' + 
+'			<div class="transform-item bottom-item vpart">' + 
 '				<span>Pinch apart to create new item</span>' + 
 '			</div>' + 
 '       </div>'+
@@ -18,7 +18,7 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
         PinchItemView.superclass.constructor.apply(self, arguments);
 	}
     S.extend(PinchItemView, mvc.View, {
-        render:function() {
+        render:function(cstyle) {
             var self = this;
             // dom 节点添加标志 , dom 代理事件需要
             // self.get("el").addClass("note").attr("id", self.get("note").getId());
@@ -29,6 +29,9 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
                 $(self.get('parentNode')).css('-webkit-perspective',Global.cssConfig.perspective);
             }
             self.set('el',el);
+            if(cstyle){
+                el.all('.vpart').style(cstyle)
+            }
             self.set('height',0)
             return self;
         },
@@ -53,7 +56,7 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
             	deg;
             if(heightByPx > defHeight){
                 deg = 0;
-                el.height(defHeight).all('.pinch-wrapper').height(defHeight).style('margin', Math.floor(heightByPx - defHeight) + 'px 0');
+                el.height('auto').all('.pinch-wrapper').height(defHeight).style('margin', Math.floor(heightByPx - defHeight)/2 + 'px 0');
             }else{
                 deg = Math.floor((Math.acos(heightByPx/defHeight)/Math.PI) * 180);
                 el.height(heightByPx).all('.pinch-wrapper').height(heightByPx).style('margin','0')
@@ -67,7 +70,7 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
             // S.log('transend')
         },
 
-        destroy:function() {
+        destroy:function(cb) {
             var self = this;
             S.log('destroy start');
             var curHeight = self.get('height'),
@@ -82,6 +85,11 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
                 S.later(function(){
                     el.all('.pinch-wrapper').css('margin', 0)
                 }, 1, false, self)
+                S.later(function(){
+                    if(cb){
+                        cb();
+                    }
+                }, 150, false, self)
                 
                 // S.later(function(){
                 //     el.removeClass('intransition')
@@ -111,6 +119,9 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
                         self.set('height',0);
                         $(self.get("el")).remove();
                         timer.cancel();
+                        if(cb){
+                            cb();
+                        }
                     }else{
                         self.set('height',height);
                     }
