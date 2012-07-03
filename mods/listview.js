@@ -181,18 +181,20 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                 }
                 if(self.pinchViewInst){
                     var curPinchEl = self.pinchViewInst.get('el');
-                    self.pinchViewInst.destroy(function(){
-                        var newItemViewInst = new ItemView().render({
-                            value:'now I\'m a new item'
-                        }, curPinchEl);
+                    var newItemViewInst = new ItemView().render({
+                        value:'now I\'m a new item'
+                    });
+                    newItemEl = newItemViewInst.get('el');
+                    // newItemEl.hide();
+                    newItemEl.insertAfter(curPinchEl);
+                    self.editItem(newItemEl.all('span.text'));
 
-                        var allEl = self.get('el').all('li')
-                        S.each(allEl ,function(oneItem, i){
-                            var colorStr = 'hsl(' + (353+i*Math.min(70/allEl.length,10)) + ',95%,' + (i==0 ? '48%':'53%') + ')';
-                            console.log(colorStr)
-                            $(oneItem).all('.itembody').style('background-color', colorStr);
-                            $(oneItem).all('.transform-item').style('background-color', colorStr);
-                        })
+                    self.pinchViewInst.destroy(function(){
+
+                        self.refreshColor();
+                        
+                        // console.log(newItemViewInst.get('el').all('span.text').text())
+                        newItemEl.show();
                     });
                     self.pinchViewInst = null;
                     
@@ -215,19 +217,25 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                     $(self.get('el')).append(newItemView.get('el'));
                     newItemView.set('parentNode',$(self.get('el')));                
             }
+            self.refreshColor();
         },
         destroy:function() {
             this.get("el").remove();
         },
-        editItem:function(ev){
+        edit:function(ev){
+            this.editItem(ev.currentTarget);
+        },
+        editItem:function(itemEl){
             var self = this;
             // // S.log(ev);
             // $(ev.currentTarget).fire('editstart');
-            var textEl = $(ev && ev.currentTarget),
-                inputEl = $(editInputElTpl.render({value:textEl.text()}));
-            textEl.parent('li.item').append(inputEl);
-            textEl.hide();
+            var textEl = $(itemEl);
+                inputEl = $(itemEl).parent('div.itembody').all('input');
             inputEl.val(textEl.text()).show().getDOMNode().focus();
+                // inputEl = $(editInputElTpl.render({value:textEl.text()}));
+            // textEl.parent('div.itembody').append(inputEl);
+            textEl.hide();
+            // inputEl.val(textEl.text()).show().getDOMNode().focus();
         },
         endEdit:function(ev){
             // // S.log(ev);
@@ -235,6 +243,8 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                 // el = self.get('el'),
                 inputEl = $(ev.currentTarget),
                 textEl = $(inputEl).parent('li.item').all('span.text');
+            textEl.show();
+            textEl.text(inputEl.val());
                 // inputEl = el.all('input');
             // self.fire('editend');
             // inputEl.hide()
@@ -242,17 +252,26 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
             inputEl.detach('blur');
             // // S.log(inputEl && inputEl.getDOMNode())
             inputEl.remove();
-            textEl.text(inputEl.val()).show();
         },
         onSwipe:function(ev){
 
+        },
+        refreshColor:function(){
+            var self = this;
+            var allEl = self.get('el').all('li')
+            S.each(allEl ,function(oneItem, i){
+                var colorStr = 'hsl(' + (353+i*Math.min(70/allEl.length,10)) + ',95%,' + (i==0 ? '48%':'53%') + ')';
+                console.log(colorStr)
+                $(oneItem).all('.itembody').style('background-color', colorStr);
+                $(oneItem).all('.transform-item').style('background-color', colorStr);
+            })            
         }
     },{
         ATTRS:{
              events:{
                 value:{
                     'span.text':{
-                        "click":"editItem"
+                        "click":"edit"
                     },
                     'input':{
                         'blur':'endEdit'

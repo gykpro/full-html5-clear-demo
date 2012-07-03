@@ -86,6 +86,7 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
                     el.all('.pinch-wrapper').css('margin', 0)
                 }, 1, false, self)
                 S.later(function(){
+                    el.remove();
                     if(cb){
                         cb();
                     }

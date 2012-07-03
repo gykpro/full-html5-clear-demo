@@ -16,3 +16,20 @@ li{
 .intransition{
 	-webkit-transition:all 0.1s ease-in;
 }
+
+.itembody input{
+	/*line-height:60px;*/
+	/*vertical-align: middle;*/
+	padding:20px 0;
+	background-color: transparent;
+	border:0;
+	color:#fff;
+	font-size:16px;
+	font-weight:bold;
+	outline:none;
+	width:100%;
+}
+
+.itembody{
+	padding-left:12px;
+}

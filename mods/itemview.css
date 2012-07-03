@@ -11,3 +11,9 @@ ul,li{
 li span.text{
 	line-height:60px;
 }
+
+.item .text{
+	width:100%;
+	overflow:hidden;
+	word-wrap:no-wrap;
+}
