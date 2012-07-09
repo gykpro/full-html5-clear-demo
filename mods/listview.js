@@ -15,8 +15,11 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
             function setTopPinchViewHeight(height){
                 var dH = height;
                 if(!self.topPinchViewInst){
-                    self.topPinchViewInst = new TopPinchView().render();
+                    self.topPinchViewInst = new TopPinchView().render(null, null, {
+                        'background-color':self.getColorOfIndex(0, self.get('el').all('li').length)
+                    });
                     self.topPinchViewInst.get('el').prependTo(self.get('el'));
+                    self._newElIndex = 0;
 
                 }
                 self.topPinchViewInst.set('height',dH);
@@ -56,7 +59,7 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                     theoIndex = parseInt((middleX - topPos) / Global.cssConfig.itemHeight);
                 // console.log((middleX - topPos) % Global.cssConfig.itemHeight)
 
-                newElIndex = (theoIndex > elCount - 1)?elCount :theoIndex;
+                self._newElIndex = newElIndex = (theoIndex > elCount - 1)?elCount :theoIndex;
                 // if(newElIndex < elCount - 1){
                 //     newElIndex++;
                 // }
@@ -166,10 +169,12 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
 
                 if(e.touches && e.touches.length ===0){
                     self.__dragging = false;
-                    if(self.topPinchViewInst){
-                        self.topPinchViewInst.destroy();
-                        self.topPinchViewInst = null;
-                    }
+                    // if(self.topPinchViewInst){
+                    //     var topPinchEl = self.topPinchViewInst.get('el');
+
+                    //     self.topPinchViewInst.destroy();
+                    //     self.topPinchViewInst = null;
+                    // }
                 }
 
                 // if(!e.touches || e.touches.length!==1){
@@ -179,24 +184,30 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                 if(e.touches.length === 1){
                     self.__pinching = false;
                 }
-                if(self.pinchViewInst){
-                    var curPinchEl = self.pinchViewInst.get('el');
-                    var newItemViewInst = new ItemView().render({
-                        value:'now I\'m a new item'
-                    });
-                    newItemEl = newItemViewInst.get('el');
-                    // newItemEl.hide();
-                    newItemEl.insertAfter(curPinchEl);
-                    self.editItem(newItemEl.all('span.text'));
+                var curPinchViewInst = self.pinchViewInst || self.topPinchViewInst;
+                if(curPinchViewInst){
+                    var curPinchEl = curPinchViewInst.get('el');
+                    if(curPinchViewInst.get('height') >= 60){
+                        var newItemViewInst = new ItemView().render({
+                            value:'我是一个新条目！'
+                        }, curPinchEl, {
+                            'background-color':self.getColorOfIndex(self._newElIndex, self.get('el').all('li').length)
+                        });
+                        newItemEl = newItemViewInst.get('el');
+                        // newItemEl.hide();
+                        // newItemEl.insertAfter(curPinchEl);
+                        self.editItem(newItemEl.all('span.text'));                        
+                    }
 
-                    self.pinchViewInst.destroy(function(){
+                    curPinchViewInst.destroy(function(){
 
                         self.refreshColor();
                         
                         // console.log(newItemViewInst.get('el').all('span.text').text())
-                        newItemEl.show();
+                        // newItemEl.show();
                     });
                     self.pinchViewInst = null;
+                    self.topPinchViewInst = null;
                     
                 }
                 // S.log('endend')
@@ -227,11 +238,12 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
         },
         editItem:function(itemEl){
             var self = this;
-            // // S.log(ev);
+
             // $(ev.currentTarget).fire('editstart');
-            var textEl = $(itemEl);
+            var textEl = $(itemEl),
                 inputEl = $(itemEl).parent('div.itembody').all('input');
             inputEl.val(textEl.text()).show().getDOMNode().focus();
+            console.log('right')
                 // inputEl = $(editInputElTpl.render({value:textEl.text()}));
             // textEl.parent('div.itembody').append(inputEl);
             textEl.hide();
@@ -251,20 +263,24 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
             // alert($(inputEl).parent('li.item').html())
             inputEl.detach('blur');
             // // S.log(inputEl && inputEl.getDOMNode())
-            inputEl.remove();
+            inputEl.hide();
         },
         onSwipe:function(ev){
 
         },
         refreshColor:function(){
             var self = this;
-            var allEl = self.get('el').all('li')
+            var allEl = self.get('el').all('li');
+            var totalLength = allEl.length;
             S.each(allEl ,function(oneItem, i){
-                var colorStr = 'hsl(' + (353+i*Math.min(70/allEl.length,10)) + ',95%,' + (i==0 ? '48%':'53%') + ')';
-                console.log(colorStr)
+                var colorStr = self.getColorOfIndex(i, totalLength);
+                // console.log(colorStr)
                 $(oneItem).all('.itembody').style('background-color', colorStr);
                 $(oneItem).all('.transform-item').style('background-color', colorStr);
             })            
+        },
+        getColorOfIndex:function(index, length){
+            return 'hsl(' + (353+index*Math.min(70/length,10)) + ',95%,' + (index==0 ? '48%':'53%') + ')';
         }
     },{
         ATTRS:{

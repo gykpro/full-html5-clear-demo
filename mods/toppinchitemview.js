@@ -4,7 +4,7 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
 	var topPinchItemViewTpl = Template(
 	'<li class="pinch-item">' + 
 '			<div class="transform-item  top-pinch-item">' + 
-'				<span>Drag down to create new item</span>' + 
+'				<span>下拉新建条目</span>' + 
 '			</div>' + 
 '		</li>' );
     // console.log(Global.cssConfig.perspective)
@@ -14,7 +14,7 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
         S.log('toppinchview created')
 	}
     S.extend(TopPinchItemView, PinchItemView, {
-        render:function() {
+        render:function(data, node, cStyle) {
             var self = this;
             // dom 节点添加标志 , dom 代理事件需要
             // self.get("el").addClass("note").attr("id", self.get("note").getId());
@@ -26,6 +26,9 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
                 $(self.get('parentNode')).css('-webkit-perspective',Global.cssConfig.perspective);
             }
             self.set('el',el);
+            if(cStyle){
+                el.all('.transform-item').style(cStyle)
+            }
             return self;
         },
         appendTo:function(parentNode){
@@ -55,8 +58,9 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
             // bottom.css('-webkit-transform','perspective(600) rotateX('+ deg +'deg)')
             // upper.css('-webkit-transform','rotateX(-'+ deg +'deg)')
             itemEl.css('-webkit-transform','rotateX('+ deg +'deg)')
+            itemEl.style('opacity',Math.min(heightByPx+20, 80)/80 *1);
         },
-        destroy:function(){
+        destroy:function(cb){
              var self = this;
             S.log('destroy start');
             var curHeight = self.get('height'),
@@ -69,9 +73,14 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
                 var speed = dH1/10;
                 el.addClass('intransition');
                 S.later(function(){
-                    el.height(defHeight)
+                    el.height(defHeight);
                 }, 1, false, self)
-              
+                S.later(function(){
+                    el.removeClass('intransition');
+                }, 150, false, self)
+                if(cb){
+                    cb();
+                }
             }else{
                 callback();
             }
@@ -82,8 +91,11 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
                     if(height<=0){
                         height = 0;
                         self.set('height',0);
-                        $(self.get("el")).remove();
+                        // $(self.get("el")).remove();
                         timer.cancel();
+                        if(cb){
+                            cb()
+                        }
                     }else{
                         self.set('height',height);
                     }

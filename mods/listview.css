@@ -20,11 +20,12 @@ li{
 .itembody input{
 	/*line-height:60px;*/
 	/*vertical-align: middle;*/
-	padding:20px 0;
+	padding:19px 0 20px;
 	background-color: transparent;
 	border:0;
 	color:#fff;
-	font-size:16px;
+	font-size:18px;
+	height:23px;
 	font-weight:bold;
 	outline:none;
 	width:100%;

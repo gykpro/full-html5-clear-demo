@@ -21,7 +21,7 @@ KISSY.add('mods/itemview',function(S, Node, Template, mvc, Anim){
             }
             self.set('el',el);
             if(cstyle){
-                el.style(cstyle)
+                el.all('.itembody').style(cstyle);
             }
             // el.unselectable();
             el.on('touchstart',function(ev){

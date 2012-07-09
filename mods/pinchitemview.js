@@ -5,10 +5,10 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
 	'<li class="pinch-item">' + 
     '   <div class="pinch-wrapper">'+
 '			<div class="transform-item upper-item vpart">' + 
-'				<span>Pinch apart to create new item</span>' + 
+'				<span>双指放大新建条目</span>' + 
 '			</div>' + 
 '			<div class="transform-item bottom-item vpart">' + 
-'				<span>Pinch apart to create new item</span>' + 
+'				<span>双指放大新建条目</span>' + 
 '			</div>' + 
 '       </div>'+
 '	</li>' );
@@ -59,14 +59,19 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
                 el.height('auto').all('.pinch-wrapper').height(defHeight).style('margin', Math.floor(heightByPx - defHeight)/2 + 'px 0');
             }else{
                 deg = Math.floor((Math.acos(heightByPx/defHeight)/Math.PI) * 180);
-                el.height(heightByPx).all('.pinch-wrapper').height(heightByPx).style('margin','0')
+                el.height(heightByPx).all('.pinch-wrapper').height(heightByPx).style('margin','0');
+                el.all('.vpart').style('opacity', (heightByPx+20)/80*1);
+                
+                var actualHeight = 60 * Math.abs(Math.cos(deg*Math.PI/180));
+                var delta = actualHeight - heightByPx;
+                bottom.style('bottom',-delta+'px')
             }
             // el.css('height',heightByPx);
             // Y.log(upper.css('-webkit-transform'))
             // upper.css('-webkit-transform','perspective(600) rotateX(-'+ deg +'deg)')
             // bottom.css('-webkit-transform','perspective(600) rotateX('+ deg +'deg)')
-            upper.css('-webkit-transform','rotateX(-'+ deg +'deg)')
-            bottom.css('-webkit-transform','rotateX('+ deg +'deg)')
+            upper.css('-webkit-transform','rotateX(-'+ deg +'deg)');
+            bottom.css('-webkit-transform','rotateX('+ deg +'deg)');
             // S.log('transend')
         },
 
@@ -80,13 +85,13 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
             console.log('height:'+curHeight)
             console.log('dh:'+dH1)
             if(dH1 > 0){
-                var speed = dH1/10;
+                var speed = dH1/5;
                 el.all('.pinch-wrapper').addClass('intransition');
                 S.later(function(){
                     el.all('.pinch-wrapper').css('margin', 0)
                 }, 1, false, self)
                 S.later(function(){
-                    el.remove();
+                    // el.remove();
                     if(cb){
                         cb();
                     }
