@@ -2,7 +2,7 @@ KISSY.add('mods/itemview',function(S, Node, Template, mvc, Anim){
 	var $=Node.all;
 
     // var ItemViewTpl = Template('<li class="item"><span class="text">{{value}}</span><input type="text" value="{{value}}" style="display:none;"></li>' );
-	var ItemViewTpl = Template('<li class="item"><div class="itembody"><span class="icon-finish"></span><span class="text">{{value}}</span><input type="text" value=""/><span class="icon-delete"></span></div></li>' );
+	var ItemViewTpl = Template('<li class="item"><div class="itembody vpart"><span class="icon-finish"></span><span class="text">{{value}}</span><input type="text" value=""/><span class="icon-delete"></span></div></li>' );
 
 	function ItemView(){
 		var self = this;

@@ -3,7 +3,7 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
 
 	var topPinchItemViewTpl = Template(
 	'<li class="pinch-item">' + 
-'			<div class="transform-item  top-pinch-item">' + 
+'			<div class="transform-item  top-pinch-item vpart">' + 
 '				<span>下拉新建条目</span>' + 
 '			</div>' + 
 '		</li>' );
@@ -77,10 +77,10 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
                 }, 1, false, self)
                 S.later(function(){
                     el.removeClass('intransition');
+                    if(cb){
+                        cb();
+                    }
                 }, 150, false, self)
-                if(cb){
-                    cb();
-                }
             }else{
                 callback();
             }

@@ -24,9 +24,11 @@ KISSY.use('mods/listview',function(S, ListView){
 
 				
 		view.add([{
-			value:'xxx'
+			value:'Full html5 clear demo'
 		},{
-			value:'yyy'
+			value:'drag down or'
+		},{
+			value:'pinch apart to add'
 		}])
 
 		// $('#container li.item').on('swipe',function(ev){

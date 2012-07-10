@@ -10,11 +10,20 @@ ul{
 }
 li{
 	-webkit-perspective-origin:50% 30px;
-	-webkit-perspective:600px
+	-webkit-perspective:600px;
+	
+}
+
+li .vpart{
+	opacity:1;
 }
 
 .intransition{
 	-webkit-transition:all 0.1s ease-in;
+}
+
+.intransition-medium .vpart{
+	-webkit-transition:opacity 0.2s ease-in;
 }
 
 .itembody input{
@@ -33,4 +42,8 @@ li{
 
 .itembody{
 	padding-left:12px;
+}
+
+li.half-transparent .vpart{
+	opacity: 0.3;
 }

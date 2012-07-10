@@ -56,7 +56,7 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
                     elCount = el.all('li').length,
                     middleX = (e.touches[0].pageY + e.touches[1].pageY)/2,
                     newElIndex = elCount - 1,
-                    theoIndex = parseInt((middleX - topPos) / Global.cssConfig.itemHeight);
+                    theoIndex = parseInt(middleX / Global.cssConfig.itemHeight) + 1;
                 // console.log((middleX - topPos) % Global.cssConfig.itemHeight)
 
                 self._newElIndex = newElIndex = (theoIndex > elCount - 1)?elCount :theoIndex;
@@ -243,7 +243,14 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
             var textEl = $(itemEl),
                 inputEl = $(itemEl).parent('div.itembody').all('input');
             inputEl.val(textEl.text()).show().getDOMNode().focus();
-            console.log('right')
+            var parentLiEl = $(itemEl).parent('li');
+            var listElLiChildren = self.get('el').all('li');
+            listElLiChildren.addClass('intransition-medium');
+            parentLiEl.removeClass('intransition-medium');
+            S.later(function(){
+                listElLiChildren.addClass('half-transparent');
+                parentLiEl.removeClass('half-transparent');
+            },25)
                 // inputEl = $(editInputElTpl.render({value:textEl.text()}));
             // textEl.parent('div.itembody').append(inputEl);
             textEl.hide();
@@ -264,6 +271,7 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
             inputEl.detach('blur');
             // // S.log(inputEl && inputEl.getDOMNode())
             inputEl.hide();
+            self.get('el').all('li').removeClass('half-transparent');
         },
         onSwipe:function(ev){
 
