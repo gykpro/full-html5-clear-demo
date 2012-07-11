@@ -125,6 +125,7 @@ KISSY.add('mods/pinchitemview',function(S, Node, Template, mvc, Anim, Global){
                         self.set('height',0);
                         $(self.get("el")).remove();
                         timer.cancel();
+                        el.remove();
                         if(cb){
                             cb();
                         }

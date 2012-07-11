@@ -2,77 +2,54 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>Clear HTML5 Demo</title>
-	<link rel="stylesheet" type="text/css" href="./main.css" media="all">
-	<script type="text/javascript" src="http://a.tbcdn.cn/??s/kissy/1.2.0/kissy-min.js"></script>
-	<script type="text/javascript" src="./main.js"></script>
+	<title></title>
+	<script type="text/javascript" src="http://a.tbcdn.cn/??s/kissy/1.2.0/kissy.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
 	<style type="text/css">
-	/*
-		for in page test
-	*/
+		body{
+			overflow: auto;
+			height:480px;
+			padding:0;
+			margin:0;
+		}
+		ul,li.item{
+		}
+		.item .itembody{
+			list-style-type:none;
+			background-color: #ccc;
+		}
+		.in-transition{
 
-	li.item{
-		font-size:12px;
-		position: relative;
-		height:40px;
-		display:block;
-		line-height:40px;
-	}
-	.transform-item{
-		height:20px;
-		width:100%;
-		overflow:hidden;
-		position: absolute;
-		background-color: #F93;
-		/*-webkit-transform:;*/
-	}
-	.transform-item span{
-		position: absolute;
-		padding-left:12px;
-		line-height:17px;
-
-	}
-	.upper-item{
-		top:0px;
-		-webkit-transform-origin-y:0;
-		-moz-transform-origin-y:0;
-		-o-transform-origin-y:0;
-		-ms-transform-origin-y:0;
-		transform-origin-y:0;
-		-webkit-transform:perspective(600);
-	}
-	.upper-item span{
-		bottom:-9px;
-	}
-	.bottom-item{
-		bottom:0px;
-		-webkit-transform-origin-y:100%;
-		-moz-transform-origin-y:100%;
-		-o-transform-origin-y:100%;
-		-ms-transform-origin-y:100%;
-		transform-origin-y:100%;
-		-webkit-transform:perspective(600);
-	}
-	.bottom-item span{
-		top:-9px;
-	}
+			-webkit-transition: all 0.1s ease-in;
+		}
+		ul,li{
+			list-style-type:none;
+			padding:0;
+			margin:0;
+		}
+		#container{
+			width:device-width;
+			overflow:hidden;
+			min-height:500px;
+		}
 	</style>
+
+	<script type="application/x-javascript">
+		addEventListener('load',function(){
+			setTimeout(window.scrollTo,0,0,1);
+			setTimeout(window.scrollTo,1,0,0);
+		},false);
+	</script>
 </head>
 <body>
-	<ul class="list">
-		<li class="item">item</li>
-		<li class="item">item</li>
-		<li class="pinch-item">
-
-			<div class="transform-item upper-item">
-				<span>Pinch apart to create new item</span>
-			</div>
-			<div class="transform-item bottom-item">
-				<span>Pinch apart to create new item</span>
-			</div>
-		</li>
-		<li class="item">item</li>
-	</ul>
+	<script type="text/javascript">
+		KISSY.Config.debug=false;
+	</script>
 	
+	<ul id="container">
+		
+	</ul>
+	<script type="text/javascript" src="http://twilight.btlogs.com/webdemo/html5-clear-demo/main-min.js"></script>
+
 </body>
 </html>

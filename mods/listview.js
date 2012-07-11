@@ -280,11 +280,12 @@ KISSY.add('mods/listview',function(S, Node, Template, mvc, ItemView, PinchItemVi
             var self = this;
             var allEl = self.get('el').all('li');
             var totalLength = allEl.length;
+            console.log(totalLength)
             S.each(allEl ,function(oneItem, i){
                 var colorStr = self.getColorOfIndex(i, totalLength);
                 // console.log(colorStr)
-                $(oneItem).all('.itembody').style('background-color', colorStr);
-                $(oneItem).all('.transform-item').style('background-color', colorStr);
+                $(oneItem).all('.vpart').style('background-color', colorStr);
+                // $(oneItem).all('.transform-item').style('background-color', colorStr);
             })            
         },
         getColorOfIndex:function(index, length){

@@ -91,6 +91,7 @@ KISSY.add('mods/toppinchitemview',function(S, Node, Template, mvc, Anim, PinchIt
                     if(height<=0){
                         height = 0;
                         self.set('height',0);
+                        el.remove();
                         // $(self.get("el")).remove();
                         timer.cancel();
                         if(cb){
